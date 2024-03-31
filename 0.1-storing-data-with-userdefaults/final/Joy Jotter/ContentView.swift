@@ -34,11 +34,10 @@ import SwiftUI
 
 struct ContentView: View {
   @EnvironmentObject var joyJotterVM: JoyJotterVM
-  @State private var selectedTab: Int = 0
   @AppStorage("selectedTab") private var savedSelectedTab: Int = 0
 
   var body: some View {
-    TabView(selection: $selectedTab) {
+    TabView(selection: $savedSelectedTab) {
       CategoriesListView()
         .tabItem {
           Label("Categories", systemImage: "square.grid.2x2")
@@ -57,11 +56,7 @@ struct ContentView: View {
         }
         .tag(2)
     }
-    .onChange(of: selectedTab) { _, newValue in
-      savedSelectedTab = newValue
-    }
     .onAppear {
-      selectedTab = savedSelectedTab
       joyJotterVM.isFavTabVisible = UserDefaults.standard.bool(forKey: "isFavTabVisible")
       joyJotterVM.isFavVisibleInCard = UserDefaults.standard.bool(forKey: "isFavVisibleInCard")
     }
@@ -71,5 +66,6 @@ struct ContentView: View {
 struct ContentView_Previews: PreviewProvider {
   static var previews: some View {
     ContentView()
+      .environmentObject(JoyJotterVM(jokes: JoyJotterVM.basicJokes))
   }
 }

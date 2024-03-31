@@ -100,4 +100,5 @@ struct JokeView: View {
         rating: 4
       )
   )
+  .environmentObject(JoyJotterVM(jokes: JoyJotterVM.basicJokes))
 }
