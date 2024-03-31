@@ -36,12 +36,21 @@ import SwiftData
 @main
 struct AppMain: App {
   @StateObject private var joyJotterVM = JoyJotterVM(jokes: JoyJotterVM.readDataOfJokes() ?? JoyJotterVM.basicJokes)
+  let modelContainer: ModelContainer
+
+  init() {
+    do {
+      modelContainer = try ModelContainer(for: JokeAuthor.self)
+    } catch {
+      fatalError("Could not initialize ModelContainer")
+    }
+  }
 
   var body: some Scene {
     WindowGroup {
       ContentView()
         .environmentObject(joyJotterVM)
-        .modelContainer(for: [JokeAuthor.self])
+        .modelContainer(modelContainer)
     }
   }
 }
